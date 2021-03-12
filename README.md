@@ -1,7 +1,8 @@
 # bfInterpreter  
 An interpreter for the BrainFuck programming language  
 Includes a few example programs written by me.
-# Usage
+# Usage  
+(MacOS and Linux, if you are on Windows, sorry)
     make  
     ./main file [-d] [-o output file]
 options are as follows:  
