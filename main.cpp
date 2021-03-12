@@ -1,7 +1,5 @@
 /*
 TODO
-Load files
-Interpret BrainFuck
 Allow config files for bf-like languages
 Allow cell visualization
 */
@@ -12,7 +10,7 @@ Brainfuck instructions taken from https://en.wikipedia.org/wiki/Brainfuck
 > 	increment the data pointer (to point to the next cell to the right).
 < 	decrement the data pointer (to point to the next cell to the left).
 + 	increment (increase by one) the byte at the data pointer.
-- 	decrement (decrease by one) the byte at the data pointer. (if less than 0, wrap around to 256)
+- 	decrement (decrease by one) the byte at the data pointer.
 . 	output the byte at the data pointer.
 , 	accept one byte of input, storing its value in the byte at the data pointer.
 [ 	if the byte at the data pointer is zero, then instead of moving the instruction pointer forward to the next command, jump it forward to the command after the matching ] command.
@@ -58,9 +56,12 @@ int main(int argc, char* argv[]){
             args[0] = argv[i];
         }
     }
-    printf("program file: %s\n", args[0]);
-    if(output) printf("output file: %s\n", args[1]);
-    if(config) printf("config file: %s\n", args[2]);
+
+    if(!config) args[2] = "bf.config";
+
+    if(debug) printf("program file: %s\n", args[0]);
+    if(debug) if(output) printf("output file: %s\n", args[1]);
+    if(debug) printf("config file: %s\n", args[2]);
 
     FILE *infile;
     long infileSize;
@@ -91,7 +92,14 @@ int main(int argc, char* argv[]){
 
     fclose(infile);
 
-    printf("program: %s\n", buffer);
+    if(debug) printf("program: %s\n", buffer);
+
+    FILE *outfile;
+    outfile = fopen(args[1], "w");
+    if(outfile == NULL){
+        printf("Error! couldn't open output file\n");
+        return 0;
+    }
 
     char mem[3000] = {0};
     char *curr = &mem[0];
@@ -123,6 +131,9 @@ int main(int argc, char* argv[]){
                 break;
             case '.':
                 putchar((*curr));
+                if(output){
+                    fputc((*curr), outfile);
+                }
                 break;
             case ',':
                 (*curr) = getchar();
@@ -144,6 +155,7 @@ int main(int argc, char* argv[]){
         }
     }
 
+    fclose(outfile);
     free(buffer);
     return 0;
 }
