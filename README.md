@@ -2,7 +2,7 @@
 An interpreter for the brainfuck programming language  
 Includes a few example programs written by me.
 # Usage  
-(MacOS and Linux, if you are on Windows, sorry)
+(MacOS and Linux, if you are on Windows, sorry)  
     make  
     ./main file [-d] [-o output file]
 options are as follows:  
