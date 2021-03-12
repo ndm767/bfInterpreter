@@ -86,10 +86,12 @@ int main(int argc, char* argv[]){
     if(debug) printf("program: %s\n", buffer);
 
     FILE *outfile;
-    outfile = fopen(args[1], "w");
-    if(outfile == NULL){
-        printf("Error! couldn't open output file\n");
-        return 0;
+    if(output){
+        outfile = fopen(args[1], "w");
+        if(outfile == NULL){
+            printf("Error! couldn't open output file\n");
+            return 0;
+        }
     }
 
     char mem[3000] = {0};
@@ -146,7 +148,22 @@ int main(int argc, char* argv[]){
         }
     }
 
-    fclose(outfile);
+    if(debug){
+        int memEnd = 0;
+        for(int i = 2999; i>=0; i--){
+            if(mem[i] != 0){
+                memEnd = i;
+                break;
+            }
+        }
+        printf("\n");
+        for(int i = 0; i<=memEnd; i++){
+            printf("|%i", mem[i]);
+        }
+        printf("|\n");
+    }
+
+    if(output) fclose(outfile);
     free(buffer);
     return 0;
 }
