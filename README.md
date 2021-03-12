@@ -1,5 +1,5 @@
 # bfInterpreter  
-An interpreter for the BrainFuck programming language  
+An interpreter for the brainfuck programming language  
 Includes a few example programs written by me.
 # Usage  
 (MacOS and Linux, if you are on Windows, sorry)
