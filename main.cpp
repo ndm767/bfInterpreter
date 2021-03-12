@@ -22,7 +22,6 @@ options:
 int main(int argc, char* argv[]){
     bool debug = false;
     bool output = false;
-    bool config = false;
     char* args[2]; //0 - file to compile, 1 - output file
     if(argc < 2){
         printf("Not enough arguments! Usage: %s file [-d, -o output]", argv[0]);
