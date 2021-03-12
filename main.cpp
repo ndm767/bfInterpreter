@@ -1,6 +1,5 @@
 /*
 TODO
-Allow config files for bf-like languages
 Allow cell visualization
 */
 
@@ -21,7 +20,6 @@ Brainfuck instructions taken from https://en.wikipedia.org/wiki/Brainfuck
 options:
 -d debug
 -o output
--c config
 */
 
 #include <stdio.h>
@@ -31,9 +29,9 @@ int main(int argc, char* argv[]){
     bool debug = false;
     bool output = false;
     bool config = false;
-    char* args[3]; //0 - file to compile, 1 - output file, 2 - config file
+    char* args[2]; //0 - file to compile, 1 - output file
     if(argc < 2){
-        printf("Not enough arguments! Usage: %s file [-d, -o output, -c config]", argv[0]);
+        printf("Not enough arguments! Usage: %s file [-d, -o output]", argv[0]);
         return 0;
     }
 
@@ -46,10 +44,6 @@ int main(int argc, char* argv[]){
                 output = true;
                 i++;
                 args[1] = argv[i];
-            }else if(argv[i][1] == 'c'){
-                config = true;
-                i++;
-                args[2] = argv[i];
             }
         }else{
             //otherwise it must be the file
@@ -57,11 +51,8 @@ int main(int argc, char* argv[]){
         }
     }
 
-    if(!config) args[2] = "bf.config";
-
     if(debug) printf("program file: %s\n", args[0]);
     if(debug) if(output) printf("output file: %s\n", args[1]);
-    if(debug) printf("config file: %s\n", args[2]);
 
     FILE *infile;
     long infileSize;
