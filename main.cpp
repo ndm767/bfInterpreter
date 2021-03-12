@@ -16,8 +16,8 @@ options:
 -o output
 */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdio.h> //printf and file i/o
+#include <stdlib.h> //malloc
 
 int main(int argc, char* argv[]){
     bool debug = false;
