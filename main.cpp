@@ -15,18 +15,34 @@ options:
 -d debug
 -o output
 -i input
+-v verbosity
 */
 
 #include <stdio.h> //printf and file i/o
 #include <stdlib.h> //malloc
+
+void printMem(char mem[3000]){
+    int memEnd = 0;
+    for(int i = 2999; i>=0; i--){
+        if(mem[i] != 0){
+            memEnd = i;
+            break;
+        }
+    }
+    for(int i = 0; i<=memEnd; i++){
+        printf("|%i", mem[i]);
+    }
+    printf("|\n");
+}
 
 int main(int argc, char* argv[]){
     bool debug = false;
     bool output = false;
     bool input = false;
     char* args[3]; //0 - file to compile, 1 - output file, 2 - input file
+    int verbosity = 1;
     if(argc < 2){
-        printf("Not enough arguments! Usage: %s file [-d, -o output, -i input]", argv[0]);
+        printf("Not enough arguments! Usage: %s file [-d, -v [1, 2] -o output, -i input]", argv[0]);
         return 0;
     }
 
@@ -43,6 +59,9 @@ int main(int argc, char* argv[]){
                 input = true;
                 i++;
                 args[2] = argv[i];
+            }else if(argv[i][1] == 'v'){
+                i++;
+                verbosity = atoi(argv[i]);
             }
         }else{
             //otherwise it must be the file
@@ -132,6 +151,10 @@ int main(int argc, char* argv[]){
     bool errorPrinted = false;
 
     for(int i = 0; i<programSize; i++){
+        if(debug && verbosity == 2){
+            printf("%c ", buffer[i]);
+            printMem(mem);
+        }
         switch(buffer[i]){
             case '>':
                 if(curr != &mem[2999]){
@@ -194,18 +217,8 @@ int main(int argc, char* argv[]){
     }
 
     if(debug){
-        int memEnd = 0;
-        for(int i = 2999; i>=0; i--){
-            if(mem[i] != 0){
-                memEnd = i;
-                break;
-            }
-        }
         printf("\n");
-        for(int i = 0; i<=memEnd; i++){
-            printf("|%i", mem[i]);
-        }
-        printf("|\n");
+        printMem(mem);
     }
 
     if(output) fclose(outfile);
