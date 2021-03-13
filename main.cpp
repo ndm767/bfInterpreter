@@ -18,8 +18,8 @@ options:
 -v verbosity
 */
 
-#include <stdio.h> //printf and file i/o
-#include <stdlib.h> //malloc
+#include <stdio.h>
+#include <stdlib.h> 
 
 void printMem(char mem[3000]){
     int memEnd = 0;
