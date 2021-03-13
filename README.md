@@ -1,7 +1,7 @@
 # bfInterpreter  
-An interpreter for the brainf*ck programming language.  
+An interpreter for the brainf\*ck programming language.  
 Includes a few example programs written by me.  
-If you would like to learn more about brainf*ck you can find the Wikipedia article [here](https://en.wikipedia.org/wiki/Brainfuck).  
+If you would like to learn more about brainf\*ck you can find the Wikipedia article [here](https://en.wikipedia.org/wiki/Brainfuck).  
 # Usage  
 (MacOS and Linux, if you are on Windows: sorry)  
   
