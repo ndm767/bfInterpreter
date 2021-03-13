@@ -1,6 +1,7 @@
 # bfInterpreter  
 An interpreter for the brainf*ck programming language.  
-Includes a few example programs written by me.
+Includes a few example programs written by me.  
+If you would like to learn more about brainf*ck you can find the Wikipedia article here.  
 # Usage  
 (MacOS and Linux, if you are on Windows: sorry)  
   
@@ -10,10 +11,10 @@ Options are as follows:
 * -d = debug mode  
 * -o = output file  
 * -i = input file
-# output files  
+# Output Files  
 If you would like the interpreter to write to an output file as well as the command line, specify an output file with -o.  
-# input files  
+# Input Files  
 If you would like the interpreter to take input from a file rather than the user, specify an output file with -i.  
 Note: any whitespace or EOL character in the input file will be treated as input. Input in bf can only be a single character.  
-# debug mode
+# Debug Mode
 If you would like to see the final cell values and some other misc info, then turn on debug mode
