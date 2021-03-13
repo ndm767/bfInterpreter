@@ -42,7 +42,7 @@ int main(int argc, char* argv[]){
     char* args[3]; //0 - file to compile, 1 - output file, 2 - input file
     int verbosity = 1;
     if(argc < 2){
-        printf("Not enough arguments! Usage: %s file [-d, -v [1, 2] -o output, -i input]", argv[0]);
+        printf("Not enough arguments! Usage: %s file [-d, -v [1, 2], -o output, -i input]", argv[0]);
         return 0;
     }
 
