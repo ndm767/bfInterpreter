@@ -173,6 +173,7 @@ int main(int argc, char* argv[]){
                     }
                 }else{
                     (*curr) = getchar();
+                    getchar(); //catches the enter
                 }
                 break;
             case '[':
