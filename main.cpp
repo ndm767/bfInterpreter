@@ -14,6 +14,7 @@ Brainfuck instructions taken from https://en.wikipedia.org/wiki/Brainfuck
 options:
 -d debug
 -o output
+-i input
 */
 
 #include <stdio.h> //printf and file i/o
@@ -22,9 +23,10 @@ options:
 int main(int argc, char* argv[]){
     bool debug = false;
     bool output = false;
-    char* args[2]; //0 - file to compile, 1 - output file
+    bool input = false;
+    char* args[3]; //0 - file to compile, 1 - output file, 2 - input file
     if(argc < 2){
-        printf("Not enough arguments! Usage: %s file [-d, -o output]", argv[0]);
+        printf("Not enough arguments! Usage: %s file [-d, -o output, -i input]", argv[0]);
         return 0;
     }
 
@@ -37,6 +39,10 @@ int main(int argc, char* argv[]){
                 output = true;
                 i++;
                 args[1] = argv[i];
+            }else if(argv[i][1] == 'i'){
+                input = true;
+                i++;
+                args[2] = argv[i];
             }
         }else{
             //otherwise it must be the file
@@ -46,6 +52,7 @@ int main(int argc, char* argv[]){
 
     if(debug) printf("program file: %s\n", args[0]);
     if(debug) if(output) printf("output file: %s\n", args[1]);
+    if(debug) if(input) printf("input file: %s\n", args[2]);
 
     FILE *program;
     long programSize;
@@ -87,11 +94,42 @@ int main(int argc, char* argv[]){
         }
     }
 
+    FILE *infile;
+    long infileSize;
+    char *inputBuffer;
+    int inputBufferLoc = 0;
+    if(input){
+        infile = fopen(args[2], "r");
+        if(infile == NULL){
+            printf("Error! couldn't open input file\n");
+            return 0;
+        }
+        fseek(infile, 0, SEEK_END);
+        infileSize = ftell(infile);
+        rewind(infile);
+
+        inputBuffer = (char*)malloc(sizeof(char)*infileSize);
+        if(inputBuffer == NULL){
+            printf("Error! unable to allocate memory for input buffer\n");
+            return 0;
+        }
+
+        res = fread(inputBuffer, 1, infileSize, infile);
+        if(res != infileSize){
+            printf("Error! couldn't read input file\n");
+            return 0;
+        }
+
+        fclose(infile);
+    }
+
     char mem[3000] = {0};
     char *curr = &mem[0];
     int loopLoc[16];
     char *loopVal[16];
     int loopPointer = -1;
+
+    bool errorPrinted = false;
 
     for(int i = 0; i<programSize; i++){
         switch(buffer[i]){
@@ -122,7 +160,20 @@ int main(int argc, char* argv[]){
                 }
                 break;
             case ',':
-                (*curr) = getchar();
+                if(input){
+                    if(inputBufferLoc < infileSize){
+                        (*curr) = inputBuffer[inputBufferLoc];
+                        inputBufferLoc++;
+                    }else{
+                        if(!errorPrinted){
+                            printf("\nran out of supplied input! continuing with manual input\n");
+                            errorPrinted = true;
+                        }
+                        (*curr) = getchar();
+                    }
+                }else{
+                    (*curr) = getchar();
+                }
                 break;
             case '[':
                 loopPointer++;
@@ -157,6 +208,7 @@ int main(int argc, char* argv[]){
     }
 
     if(output) fclose(outfile);
+    if(input) free(inputBuffer);
     free(buffer);
     return 0;
 }
