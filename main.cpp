@@ -47,34 +47,34 @@ int main(int argc, char* argv[]){
     if(debug) printf("program file: %s\n", args[0]);
     if(debug) if(output) printf("output file: %s\n", args[1]);
 
-    FILE *infile;
-    long infileSize;
+    FILE *program;
+    long programSize;
     char *buffer;
     size_t res;
 
-    infile = fopen(args[0], "r");
-    if(infile == NULL){
+    program = fopen(args[0], "r");
+    if(program == NULL){
         printf("Error! unable to open file\n");
         return 0;
     }
 
-    fseek(infile, 0, SEEK_END);
-    infileSize = ftell(infile);
-    rewind(infile);
+    fseek(program, 0, SEEK_END);
+    programSize = ftell(program);
+    rewind(program);
 
-    buffer = (char*)malloc(sizeof(char)*infileSize);
+    buffer = (char*)malloc(sizeof(char)*programSize);
     if(buffer == NULL){
         printf("Error! unable to allocate memory\n");
         return 0;
     }
 
-    res = fread(buffer, 1, infileSize, infile);
-    if(res != infileSize){
+    res = fread(buffer, 1, programSize, program);
+    if(res != programSize){
         printf("Error! couldn't read file\n");
         return 0;
     }
 
-    fclose(infile);
+    fclose(program);
 
     if(debug) printf("program: %s\n", buffer);
 
@@ -93,7 +93,7 @@ int main(int argc, char* argv[]){
     char *loopVal[16];
     int loopPointer = -1;
 
-    for(int i = 0; i<infileSize; i++){
+    for(int i = 0; i<programSize; i++){
         switch(buffer[i]){
             case '>':
                 if(curr != &mem[2999]){
