@@ -193,6 +193,7 @@ int main(int argc, char* argv[]){
                             errorPrinted = true;
                         }
                         (*curr) = getchar();
+                        getchar(); //for the enter
                     }
                 }else{
                     (*curr) = getchar();
