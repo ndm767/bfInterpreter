@@ -6,7 +6,7 @@ If you would like to learn more about brainf\*ck you can find the Wikipedia arti
 (MacOS and Linux, if you are on Windows: sorry)  
   
     make  
-    ./main file [-d] [-v [1, 2]] [-o output file] [-i input file]  
+    ./bfinterpreter file [-d] [-v [1, 2]] [-o output file] [-i input file]  
 Options are as follows:  
 * -d = debug mode
 * -v = verbosity level (1 by default)  
