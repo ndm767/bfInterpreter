@@ -35,6 +35,25 @@ void printMem(char mem[3000]){
     printf("|\n");
 }
 
+int getMemSize(char* buffer, int size){
+    int memPos = 0;
+    int maxMemPos = 0;
+
+    for(int i = 0; i<size; i++){
+        if(buffer[i] == '>'){
+            memPos++;
+        }else if(buffer[i] == '<'){
+            memPos--;
+        }
+
+        if(memPos > maxMemPos){
+            maxMemPos = memPos;
+        }
+    }
+
+    return maxMemPos;
+}
+
 int main(int argc, char* argv[]){
     bool debug = false;
     bool output = false;
@@ -142,7 +161,7 @@ int main(int argc, char* argv[]){
         fclose(infile);
     }
 
-    char mem[3000] = {0};
+    char *mem = new char [getMemSize(buffer, programSize)];
     char *curr = &mem[0];
     int loopLoc[16];
     char *loopVal[16];
@@ -221,6 +240,8 @@ int main(int argc, char* argv[]){
         printf("\n");
         printMem(mem);
     }
+
+    delete[] mem;
 
     if(output) fclose(outfile);
     if(input) free(inputBuffer);
