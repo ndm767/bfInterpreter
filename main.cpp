@@ -162,6 +162,13 @@ int main(int argc, char* argv[]){
     }
 
     int memSize = getMemSize(buffer, programSize);
+
+    //check to make sure memory is less than or equal to 3000
+    if(memSize > 3000){
+        printf("Program uses too much memory!\n");
+        return -1;
+    }
+
     char *mem = new char [memSize];
     char *curr = &mem[0];
     int loopLoc[16];
