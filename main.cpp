@@ -21,9 +21,9 @@ options:
 #include <stdio.h>
 #include <stdlib.h> 
 
-void printMem(char mem[3000]){
+void printMem(char *mem, int memSize){
     int memEnd = 0;
-    for(int i = 2999; i>=0; i--){
+    for(int i = memSize; i>=0; i--){
         if(mem[i] != 0){
             memEnd = i;
             break;
@@ -161,7 +161,8 @@ int main(int argc, char* argv[]){
         fclose(infile);
     }
 
-    char *mem = new char [getMemSize(buffer, programSize)];
+    int memSize = getMemSize(buffer, programSize);
+    char *mem = new char [memSize];
     char *curr = &mem[0];
     int loopLoc[16];
     char *loopVal[16];
@@ -172,11 +173,11 @@ int main(int argc, char* argv[]){
     for(int i = 0; i<programSize; i++){
         if(debug && verbosity == 2){
             printf("%c ", buffer[i]);
-            printMem(mem);
+            printMem(mem, memSize);
         }
         switch(buffer[i]){
             case '>':
-                if(curr != &mem[2999]){
+                if(curr != &mem[memSize-1]){
                     curr += 1;
                 }else{
                     curr = &mem[0];
@@ -186,7 +187,7 @@ int main(int argc, char* argv[]){
                 if(curr != &mem[0]){
                     curr -= 1;
                 }else{
-                    curr = &mem[2999];
+                    curr = &mem[memSize-1];
                 }
                 break;
             case '+':
@@ -238,7 +239,7 @@ int main(int argc, char* argv[]){
 
     if(debug){
         printf("\n");
-        printMem(mem);
+        printMem(mem, memSize);
     }
 
     delete[] mem;
